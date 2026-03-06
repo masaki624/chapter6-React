@@ -1,0 +1,90 @@
+// Reactの基本機能をインポートします
+import React from 'react';
+// データを保持している外部ファイルを「posts」という名前で読み込みます
+import posts from './data/posts';
+
+// Appコンポーネントの定義を開始します
+export default function App() {
+  return (
+    // 画面全体：背景を薄いグレー(bg-gray-50)にし、最低でも画面の高さ分(min-h-screen)を確保します
+    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
+      
+      {/* ヘッダー：画面上部から大きく余白(pt-20)をとり、文字を中央(text-center)に寄せます */}
+      <header className="pt-20 text-center">
+        {/* ロゴ：文字を大きく(text-4xl)し、字間をかなり広く(tracking-[0.3em])して洗練させます */}
+        <h1 className="text-4xl font-light tracking-[0.3em] uppercase">Journal</h1>
+      </header>
+
+      {/* メインエリア：最大幅を絞り(max-w-2xl)、左右中央に配置(mx-auto)し、上下に余白(pt-20 pb-32)を作ります */}
+      <main className="max-w-2xl mx-auto px-6 pt-20 pb-32">
+        
+        {/* 記事のリスト：箇条書きタグ(ul)を使い、記事同士の縦の間隔(space-y-16)を設定します */}
+        <ul className="space-y-16">
+          {/* posts配列のデータを一つずつ順番に取り出して(map)、以下のJSXとして出力します */}
+          {posts.map((post) => (
+            /* 各リスト項目：Reactが各要素を識別するための一意なID(key)を設定します */
+            <li key={post.id}>
+              {/* 四角い枠：背景を白(bg-white)、細い枠線(border)を引き、内側に大きな余白(p-12)を作ります */}
+              <article className="bg-white border border-gray-200 p-12 shadow-sm transition-all hover:shadow-md">
+                
+                {/* 枠内上部：日付とカテゴリーを左右の端に配置(justify-between)します */}
+                <div className="flex justify-between items-start mb-12">
+                  
+                  {/* 日付：10文字切り出し(slice)、ハイフンを全て(/g)スラッシュに変える(replace)処理です */}
+                  <span className="text-[10px] text-gray-400 tracking-widest font-mono uppercase">
+                    {post.createdAt.slice(0, 10).replace(/-/g, '/')}
+                  </span>
+
+                  {/* カテゴリーエリア：複数のカテゴリーを横並び(flex)で表示します */}
+                  <div className="flex gap-2">
+                    {/* カテゴリー配列をさらにループして、一つずつ小さな黒いラベルとして表示します */}
+                    {post.categories.map((cat) => (
+                      <span key={cat} className="text-[9px] bg-black text-white px-2 py-0.5 tracking-tighter uppercase">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 枠内中央：タイトルと本文を中央寄せ(text-center)にします */}
+                <div className="text-center">
+                  {/* タイトル：フォントを太く(font-semibold)し、マウスを乗せると色が薄まるようにします */}
+                  <h2 className="text-2xl font-semibold mb-6 tracking-tight">
+                    <a href={`/post/${post.id}`} className="hover:text-gray-400 transition">
+                      {post.title}
+                    </a>
+                  </h2>
+                  
+                  {/* 境界線：タイトルの下に短い横線(w-8)を中央(mx-auto)に配置します */}
+                  <hr className="w-8 mx-auto border-gray-200 mb-8" />
+
+                  {/* 本文：左寄せ(text-left)にし、最大3行(line-clamp-3)まで表示し、HTMLタグ(br)を有効にします */}
+                  <div 
+                    className="text-gray-500 text-sm leading-loose line-clamp-3 text-left"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                </div>
+
+                {/* 枠内下部：詳細へのボタンを中央に配置します */}
+                <div className="mt-12 text-center">
+                  {/* リンク：下にだけ線を引き(border-b)、字間を広げて(tracking-[.25em])ボタンらしく見せます */}
+                  <a 
+                    href={`/post/${post.id}`} 
+                    className="text-[10px] font-bold tracking-[.25em] uppercase border-b border-black pb-1 hover:text-gray-400 hover:border-gray-400 transition"
+                  >
+                    View Details
+                  </a>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </main>
+
+      {/* フッター：上下に余白をとり、コピーライトを中央に配置します */}
+      <footer className="py-20 text-center text-[10px] text-gray-400 tracking-[0.5em]">
+        &copy; 2026 MINIMALIST
+      </footer>
+    </div>
+  );
+}

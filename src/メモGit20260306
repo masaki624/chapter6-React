@@ -1,0 +1,99 @@
+ステップ1：SSH鍵を作成してコピーする（Macのターミナル）
+ターミナルを起動する
+（Command + Space で「ターミナル」と検索して開きます）
+
+鍵を作るコマンドを打つ
+（メールアドレスはご自身のものに変えてください）
+
+Bash
+ssh-keygen -t ed25519 -C "your-email@example.com"
+Enterを3回押す
+Enter file in which to save the key... と表示されますが、何も入力せずに Enterキーを3回 連続で叩いてください。これで鍵が完成します。
+
+作った鍵の中身をコピーする
+以下のコマンドをコピーして実行してください。画面には何も出ませんが、これで「公開鍵」がクリップボードにコピーされます。
+
+Bash
+pbcopy < ~/.ssh/id_ed25519.pub
+ステップ2：GitHubに鍵を登録する（ブラウザ）
+GitHubのSSH設定ページを開く
+ブラウザで GitHub SSH Settings にアクセスします。
+
+新しい鍵を追加する
+
+Title: My Mac など分かりやすい名前を入力。
+
+Key type: Authentication Key（最初から選ばれているはずです）。
+
+Key: 先ほどコピーした内容を Command + V で貼り付けます。
+
+[Add SSH Key] ボタンをクリック。
+
+ステップ3：GitHub上に「入れ物」を作る（ブラウザ）
+新しいリポジトリを作成する
+GitHubのトップ画面左上の [New] ボタンを押します。
+
+Repository name: my-react-task など（英語で入力）。
+
+Public: 選択。
+
+[Create repository] をクリック。
+
+SSHのURLをコピーする
+画面が切り替わったら、上のタブで [SSH] を選択し、git@github.com:... で始まる文字列をコピーして手元に控えておきます。
+
+ステップ4：ViteでReact環境を作る（Macのターミナル）
+デスクトップに移動する
+
+Bash
+cd ~/Desktop
+Viteでプロジェクトを作る
+
+Bash
+npm create vite@latest my-react-app -- --template react
+※途中で「y/n」を聞かれたら y を入力してEnter。
+
+作成したフォルダに移動する
+
+Bash
+cd my-react-app
+必要な部品をインストールする
+
+Bash
+npm install
+ステップ5：GitHubへアップロードする（Macのターミナル）
+Gitを初期化する
+
+Bash
+git init
+ファイルを保存対象にする
+
+Bash
+git add .
+保存を確定させる
+
+Bash
+git commit -m "first commit"
+メインブランチ名を決める
+
+Bash
+git branch -M main
+GitHubと紐付ける
+（末尾のURLは手順8でコピーしたものに置き換えてください）
+
+Bash
+git remote add origin git@github.com:ユーザー名/my-react-task.git
+GitHubに送信する
+
+Bash
+git push -u origin main
+※初めての時は Are you sure you want to continue connecting? と聞かれるので、yes と打ち込んでEnterを押してください。
+
+ステップ6：VS Codeで開く
+VS Codeを起動する
+
+Bash
+code .
+これで完了です！GitHubのページを更新して、ファイルが並んでいれば大成功です。
+
+「手順13〜18のどこかでエラーが出た」 などあれば、そのメッセージをそのまま教えてくださいね。どのステップまで進めましたか？
