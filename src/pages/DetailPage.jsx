@@ -6,6 +6,14 @@ export default function DetailPage() {
     const { id } = useParams();
     const post = posts.find((p) => p.id === Number(id));
 
+    if(!post) {
+        return (
+            <div className="text-center p-20">
+                <h2 className="text-2xl font-bold mb-4">記事が見つかりませんでした。</h2>
+            </div>
+        );
+    }
+
     return (
         <article>
             <img src={post.thumbnailUrl} alt={post.title} className="w-full h-64 object-cover mb-8" />
