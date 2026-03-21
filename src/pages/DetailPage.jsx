@@ -1,15 +1,25 @@
-import React from "react";
-import { useParams, Link} from 'react-router-dom';
-import posts from "../data/posts";
+import React, { useState, useEffect} from "react";
+import { useParams } from 'react-router-dom';
 
 export default function DetailPage() {
     const { id } = useParams();
-    const post = posts.find((p) => p.id === Number(id));
+    const [post, setPost] = useState(null);
+    
+    useEffect(() => {
+        const fetchPost = async () => {
+            const response = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`);
+            const data = await response.json();
+            setPost(data.post);
+        }
+
+        fetchPost();
+
+    },[id]);
 
     if(!post) {
         return (
             <div className="text-center p-20">
-                <h2 className="text-2xl font-bold mb-4">記事が見つかりませんでした。</h2>
+                <h2 className="text-2xl font-bold mb-4">読み込み中</h2>
             </div>
         );
     }
