@@ -4,22 +4,30 @@ import { useParams } from 'react-router-dom';
 export default function DetailPage() {
     const { id } = useParams();
     const [post, setPost] = useState(null);
+    const [load, setLoad] = useState(true);
     
     useEffect(() => {
         const fetchPost = async () => {
             const response = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`);
             const data = await response.json();
             setPost(data.post);
+            setLoad(false);
         }
-
         fetchPost();
-
     },[id]);
+
+    if(load) {
+        return (
+            <div className="text-center p-20">
+                <h2 className="text-2xl font-bold mb-4">読み込み中</h2>
+            </div>
+        );
+    };
 
     if(!post) {
         return (
             <div className="text-center p-20">
-                <h2 className="text-2xl font-bold mb-4">読み込み中</h2>
+                <h2 className="text-2xl font-bold mb-4">記事がありませんでした</h2>
             </div>
         );
     }
