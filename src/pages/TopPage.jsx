@@ -26,6 +26,15 @@ export default function TopPage(){
     );
   };
 
+  if(!posts) {
+    return (
+      <div className="text-center p-20">
+        <h2 className="text-2xl font-bold mb-4">記事がありませんでした</h2>
+      </div>
+    );
+  }
+  
+
   return (
     <ul className="space-y-16">
       {posts.map((post) => (
