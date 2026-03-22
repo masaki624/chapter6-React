@@ -1,10 +1,41 @@
-import React from 'react';
-import posts from '../data/posts';
+import React, { useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
 
 export default function TopPage(){
-  return(
+  const [posts, setposts] = useState([]);
+  const [load, setLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoad(true);
+      const response  = await fetch('https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts');
+      const data = await response.json();
+      setposts(data.posts)
+      setLoad(false);
+    };
+    fetchPosts();
+
+  }, []);
+
+  if(load) {
+    return (
+      <div className="text-center p-20">
+        <h2 className="text-2xl font-bold mb-4">読み込み中</h2>
+      </div>
+    );
+  };
+
+  if(!posts) {
+    return (
+      <div className="text-center p-20">
+        <h2 className="text-2xl font-bold mb-4">記事がありませんでした</h2>
+      </div>
+    );
+  }
+  
+
+  return (
     <ul className="space-y-16">
       {posts.map((post) => (
         <li key={post.id}>
