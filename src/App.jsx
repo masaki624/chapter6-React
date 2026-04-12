@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
 import TopPage from './pages/TopPage';
 import DetailPage from './pages/DetailPage';
+import ContactPage from './pages/ContactPage';
 
 export default function App() {
   
@@ -19,6 +20,7 @@ export default function App() {
           <Routes>
             <Route path='/' element={<TopPage />} />
             <Route path='post/:id' element={<DetailPage />} />
+            <Route path='/contact' element={<ContactPage />} />
           </Routes>
           
         </main>
